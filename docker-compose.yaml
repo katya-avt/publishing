@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+
+  app:
+    image: "nginx:stable-alpine"
+    ports:
+      - "8000:80"
+    volumes:
+      - ./_docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./:/var/www/publishing
+    depends_on:
+      - mysql
+      - php
+    container_name: publishing_app
+
+  php:
+    build:
+      context: .
+      dockerfile: _docker/dockerfiles/php.Dockerfile
+    volumes:
+      - ./:/var/www/publishing
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    env_file:
+      - _docker/env/mysql.env
+
+  phpmyadmin:
+    image: phpmyadmin
+    env_file:
+      - _docker/env/pma.env
+    ports:
+      - "8080:80"
+
+  composer:
+    build:
+      context: .
+      dockerfile: _docker/dockerfiles/composer.Dockerfile
+    volumes:
+      - ./:/var/www/publishing
