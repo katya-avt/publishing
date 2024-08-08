@@ -8,8 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 
-#[AsCommand(name: 'app:detete-authors-without-books')]
-class DeteteAuthorsWithoutBooksCommand extends Command
+#[AsCommand(name: 'app:delete-authors-without-books')]
+class DeleteAuthorsWithoutBooksCommand extends Command
 {
     public AuthorRepository $authorRepository;
 
